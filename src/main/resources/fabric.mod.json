@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "invview",
+  "version": "${version}",
+  "name": "InvView - Chill Zone Fork",
+  "description": "InvView 1.4.21 with Chill Zone remembered-player autocomplete for /view inv and /view echest.",
+  "authors": [
+    "Potatoboy9999",
+    "Chill Zone SMP modifications"
+  ],
+  "contact": {
+    "sources": "https://github.com/PotatoPresident/InvView",
+    "issues": "https://github.com/PotatoPresident/InvView/issues"
+  },
+  "license": "MIT",
+  "icon": "logo.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "us.potatoboy.invview.InvView"
+    ]
+  },
+  "mixins": [
+    "invview.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.17.0",
+    "fabric-api": "*",
+    "minecraft": ">=26.2"
+  }
+}

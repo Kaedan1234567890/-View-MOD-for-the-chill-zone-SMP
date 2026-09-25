@@ -1,0 +1,18 @@
+Chill Zone InvView fork - 1.4.21-chillzone1
+
+Added:
+- remembered-player autocomplete for /view inv and /view echest
+- first-start/bootstrap import from vanilla usercache.json
+- persistent UUID + latest-name registry in config/chill_zone_invview_players.json
+- join-time updates so new players become suggestions automatically
+- case-insensitive prefix filtering for suggestions
+
+Preserved:
+- original /view inv behavior
+- original /view echest behavior
+- original online/offline player data loading
+- original permission nodes
+- manual arbitrary valid username lookup through GameProfileArgument
+
+Important:
+Autocomplete is server-history-only. Command execution is NOT restricted to server-history players.
