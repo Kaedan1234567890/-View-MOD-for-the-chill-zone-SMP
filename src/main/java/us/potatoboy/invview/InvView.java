@@ -67,13 +67,13 @@ public class InvView implements ModInitializer {
             viewNode.addChild(echestNode);
         });
 
-        ServerLifecycleEvents.SERVER_STARTING.register(this::onLogicalServerStarting);
+        ServerLifecycleEvents.SERVER_STARTED.register(this::onLogicalServerStarted);
 
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) ->
                 RememberedPlayers.remember(handler.player.getUUID(), handler.player.getScoreboardName()));
     }
 
-    private void onLogicalServerStarting(MinecraftServer server) {
+    private void onLogicalServerStarted(MinecraftServer server) {
         minecraftServer = server;
         RememberedPlayers.initialize(server);
     }

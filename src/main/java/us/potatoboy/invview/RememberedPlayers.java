@@ -56,9 +56,12 @@ public final class RememberedPlayers {
         loadStoredPlayers();
         importVanillaUserCache();
 
-        // Normally empty during SERVER_STARTING, but harmless and useful on integrated servers.
-        for (ServerPlayer player : server.getPlayerList().getPlayers()) {
-            put(player.getUUID(), player.getScoreboardName());
+        // SERVER_STARTED normally guarantees PlayerList exists, but keep this guard
+        // so a lifecycle/order change can never crash the server during startup.
+        if (server.getPlayerList() != null) {
+            for (ServerPlayer player : server.getPlayerList().getPlayers()) {
+                put(player.getUUID(), player.getScoreboardName());
+            }
         }
 
         save();

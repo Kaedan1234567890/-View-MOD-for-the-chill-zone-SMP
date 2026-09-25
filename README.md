@@ -1,5 +1,7 @@
 # InvView - Chill Zone Fork (Minecraft 26.2)
 
+Version: `1.4.21-chillzone2`
+
 Based on InvView 1.4.21 by Potatoboy9999 / PotatoPresident under the MIT License.
 
 ## Chill Zone change
@@ -46,3 +48,10 @@ Do not run the original InvView JAR and this fork at the same time.
 
 Original project: https://github.com/PotatoPresident/InvView
 Original 1.4.21 release: Minecraft 26.2, Fabric/Quilt.
+
+
+## Chill Zone 2 startup fix
+
+The remembered-player registry now initializes on `SERVER_STARTED` instead of `SERVER_STARTING`.
+Minecraft 26.2 can still have a null `PlayerList` during `SERVER_STARTING`, which caused the
+server-start crash seen in the first Chill Zone build. A defensive null guard is also included.

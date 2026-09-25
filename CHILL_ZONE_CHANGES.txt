@@ -16,3 +16,10 @@ Preserved:
 
 Important:
 Autocomplete is server-history-only. Command execution is NOT restricted to server-history players.
+
+
+1.4.21-chillzone2
+- Fixed startup crash: RememberedPlayers no longer reads MinecraftServer.getPlayerList() during SERVER_STARTING.
+- Initialization moved to SERVER_STARTED.
+- Added defensive null check around PlayerList.
+- No changes to /view inventory, ender chest, manual lookup, or autocomplete behavior.
