@@ -1,57 +1,23 @@
-# InvView - Chill Zone Fork (Minecraft 26.2)
+# Chill Zone InvView 0.1.0 (Minecraft 26.3)
 
-Version: `1.4.21-chillzone2`
+This **source project has not been compiled or server-tested** in this environment.
 
-Based on InvView 1.4.21 by Potatoboy9999 / PotatoPresident under the MIT License.
+## What it does
+- Bundles the unchanged, MIT-licensed InvView 1.4.22-26.3+ JAR as a nested Fabric mod, so the final artifact can replace the original InvView jar rather than requiring two installed files. The original author remains credited and the original license is included.
+- Keeps the `/view inv <player>` and `/view echest <player>` commands and InvView's original LuckPerms permission nodes, including `invview.command.root`, `invview.command.inv`, `invview.command.echest`, `invview.can_modify`, and `invview.protected`.
+- Adds case-insensitive prefix completion for remembered visitors to the existing `target` command argument. Suggestions shrink as you type and remain available after a player logs off.
+- Keeps vanilla selector and online-name suggestions by merging rather than replacing the game's provider.
+- Records each joining player's UUID and current name in `config/chillzone-invview/players.tsv` using an atomic file replacement where supported.
+- This stores names only for joins after installation; existing offline names do not automatically populate until those players log in again.
 
-## Chill Zone change
+## Building with GitHub
+1. Create a new repository; upload *all* files and folders in this project, including `.github/workflows/build.yml` and `libs/original-invview.jar`.
+2. Open Actions → Build Chill Zone InvView → Run workflow.
+3. On success, download the artifact and use `chillzone-invview-0.1.0+26.3.jar` (the remapped/output release jar; avoid `-sources` or `-dev` variants).
+4. Remove the standalone `InvView-1.4.22-26.3+.jar` from your server's mods folder **if the built Chill Zone JAR contains the nested original mod**, to avoid a duplicate mod ID. Keep Fabric API and LuckPerms installed.
+5. Back up the server, start a test instance, and test `/view inv`, `/view echest`, selectors, online and offline names, and permissions before using in production.
 
-The original inventory and ender-chest behavior is intentionally preserved.
-This fork adds server-history autocomplete to:
+If Gradle reports a dependency/remapping or mapping error, do not deploy the artifact until corrected.
 
-- `/view inv <player>`
-- `/view echest <player>`
-
-### Autocomplete behavior
-
-- Suggestions only contain players who have actually been seen on this server.
-- Suggestions filter by what staff has typed (`pro` can suggest `ProGamer`).
-- On first startup, the mod imports the existing vanilla `usercache.json` so old players are available immediately.
-- Every joining player is then remembered by UUID + latest known name.
-- The persistent list is saved in `config/chill_zone_invview_players.json`.
-- Name changes update the remembered name for the same UUID.
-
-### Manual username lookup is preserved
-
-The command still uses Minecraft's original `GameProfileArgument`. This means the autocomplete list is server-only, but staff may still manually type a valid username that has never joined the server and InvView will attempt the same normal profile resolution as upstream 1.4.21.
-
-## Installation
-
-This is a replacement for the original InvView JAR, not an add-on. It keeps the same mod id (`invview`).
-
-1. Build this project through the included GitHub Actions workflow.
-2. Remove `InvView-1.4.21-26.2+.jar` from the server's `mods` folder.
-3. Put the built `InvView-ChillZone-...jar` in the `mods` folder.
-4. Start the server.
-
-Do not run the original InvView JAR and this fork at the same time.
-
-## Permissions preserved
-
-- `invview.command.root`
-- `invview.command.inv`
-- `invview.command.echest`
-- `invview.protected`
-- `invview.can_modify`
-
-## Upstream
-
-Original project: https://github.com/PotatoPresident/InvView
-Original 1.4.21 release: Minecraft 26.2, Fabric/Quilt.
-
-
-## Chill Zone 2 startup fix
-
-The remembered-player registry now initializes on `SERVER_STARTED` instead of `SERVER_STARTING`.
-Minecraft 26.2 can still have a null `PlayerList` during `SERVER_STARTING`, which caused the
-server-start crash seen in the first Chill Zone build. A defensive null guard is also included.
+Original InvView source: https://github.com/PotatoPresident/InvView
+Original copyright: (c) 2020 Potatoboy9999, MIT (see LICENSE-INVVIEW)

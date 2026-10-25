@@ -1,0 +1,7 @@
+{
+  "required": true,
+  "package": "com.chillzone.invview",
+  "compatibilityLevel": "JAVA_25",
+  "mixins": ["ArgumentNodeAccessor"],
+  "injectors": { "defaultRequire": 1 }
+}
