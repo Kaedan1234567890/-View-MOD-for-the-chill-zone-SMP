@@ -1,4 +1,4 @@
-# Chill Zone InvView 0.1.0 (Minecraft 26.3)
+# Chill Zone InvView 0.2.0 (Minecraft 26.3)
 
 This **source project has not been compiled or server-tested** in this environment.
 
@@ -8,7 +8,7 @@ This **source project has not been compiled or server-tested** in this environme
 - Adds case-insensitive prefix completion for remembered visitors to the existing `target` command argument. Suggestions shrink as you type and remain available after a player logs off.
 - Keeps vanilla selector and online-name suggestions by merging rather than replacing the game's provider.
 - Records each joining player's UUID and current name in `config/chillzone-invview/players.tsv` using an atomic file replacement where supported.
-- This stores names only for joins after installation; existing offline names do not automatically populate until those players log in again.
+- Imports old `config/chill_zone_invview_players.json` from the Minecraft 26.2 Chill Zone fork and the vanilla `usercache.json` (if present). These original files are left untouched. Also saves every new join to the permanent registry.
 
 ## Building with GitHub
 1. Create a new repository; upload *all* files and folders in this project, including `.github/workflows/build.yml` and `libs/original-invview.jar`.

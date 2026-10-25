@@ -32,6 +32,8 @@ public final class ChillZoneInvView implements ModInitializer {
 
     @Override public void onInitialize() {
         readRegistry();
+        importOldRegistry();
+        importUserCache();
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             ServerPlayer player = handler.player;
             // UUID key keeps names up to date if a player renames themselves.
@@ -81,6 +83,38 @@ public final class ChillZoneInvView implements ModInitializer {
                     historicalNames.put(fields[0], fields[1]);
             }
         } catch (IOException ex) { System.err.println("[ChillZoneInvView] Could not read remembered players: " + ex); }
+    }
+
+    // Upgrade path from Chill Zone InvView 1.4.21 (Minecraft 26.2).
+    // Never delete the original JSON; it remains available for rollback.
+    private synchronized void importOldRegistry() {
+        importJsonPlayerArray(FabricLoader.getInstance().getConfigDir().resolve("chill_zone_invview_players.json"));
+    }
+
+    // Recover already known offline player names on fresh installations.
+    private synchronized void importUserCache() {
+        importJsonPlayerArray(Path.of("usercache.json"));
+    }
+
+    private synchronized void importJsonPlayerArray(Path path) {
+        if (!Files.isRegularFile(path)) return;
+        int before = historicalNames.size();
+        try (java.io.Reader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
+            com.google.gson.JsonElement root = com.google.gson.JsonParser.parseReader(reader);
+            if (!root.isJsonArray()) return;
+            for (com.google.gson.JsonElement element : root.getAsJsonArray()) {
+                if (!element.isJsonObject()) continue;
+                com.google.gson.JsonObject item = element.getAsJsonObject();
+                if (!item.has("uuid") || !item.has("name")) continue;
+                String uuid = item.get("uuid").getAsString();
+                String name = item.get("name").getAsString();
+                if (uuid.matches("[a-fA-F0-9-]{36}") && name.matches("[A-Za-z0-9_]{1,16}"))
+                    historicalNames.putIfAbsent(uuid, name);
+            }
+        } catch (Exception ex) {
+            System.err.println("[ChillZoneInvView] Could not import player history from " + path + ": " + ex);
+        }
+        if (historicalNames.size() != before) saveRegistry();
     }
 
     private synchronized void saveRegistry() {
