@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "id": "chillzone_invview",
+  "version": "${version}",
+  "name": "Chill Zone InvView",
+  "description": "Original MIT InvView with permanent historical-player autocomplete",
+  "authors": ["Chill Zone SMP", "Original InvView by Potatoboy9999"],
+  "license": "MIT",
+  "environment": "server",
+  "entrypoints": { "main": ["com.chillzone.invview.ChillZoneInvView"] },
+  "mixins": ["chillzone-invview.mixins.json"],
+  "depends": { "fabricloader": ">=0.19.5", "fabric-api": "*", "minecraft": ">=26.3", "java": ">=25", "invview": ">=1.4.22" }
+}
