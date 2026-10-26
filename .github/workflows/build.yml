@@ -1,4 +1,4 @@
-name: Build Chill Zone InvView
+name: Build Chill Zone InvView Autocomplete
 on:
   workflow_dispatch:
   push:
@@ -15,10 +15,26 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '9.7.1'
-      - name: Build
-        run: gradle build --warning-mode all
-      - uses: actions/upload-artifact@v4
-        if: success()
+      - name: Print build environment
+        run: |
+          java -version
+          gradle --version
+          ls -la
+      - name: Build with full diagnostic logging
+        shell: bash
+        run: |
+          set -o pipefail
+          gradle clean build --stacktrace --info --no-daemon 2>&1 | tee gradle-build.log
+      - name: Upload build log even if failed
+        if: always()
+        uses: actions/upload-artifact@v4
         with:
-          name: Chill-Zone-InvView
+          name: invview-gradle-build-log
+          path: gradle-build.log
+          if-no-files-found: warn
+      - name: Upload compiled addon
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: chillzone-invview-autocomplete-26.3
           path: build/libs/*.jar
