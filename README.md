@@ -18,3 +18,8 @@ Successful build: use the non-sources JAR from `build/libs` with original InvVie
 - Prints real errors on GitHub failures and always uploads a full log.
 - Original mod, selectors, permissions, and inventory logic are not altered.
 
+
+
+## 0.2.6 diagnosis
+The uploaded GitHub Actions `gradle-build.log` explicitly failed at `build.gradle:10`:
+`Could not find method modImplementation()` for Fabric Loader. The plugin did resolve as Fabric Loom 1.18.4 but did not register the required mod dependency configuration. This revision uses Fabric Loom 1.19.3 with Gradle 9.8.0 and retains error-log capture. This change has not been compiled or server tested.
