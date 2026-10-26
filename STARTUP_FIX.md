@@ -1,0 +1,1 @@
+Fix: Fabric rejected original InvView 1.4.22-26.3+ because the autocomplete add-on depended on >=1.4.22. The version suffix was not matched as expected. Changed only the invview dependency to * (presence is still required). Rebuild via GitHub Actions. If there is a second ViaFabric warning, inspect its details separately. This change is not a completed startup test.
