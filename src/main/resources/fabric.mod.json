@@ -15,9 +15,6 @@
       "com.chillzone.invview.ChillZoneInvView"
     ]
   },
-  "mixins": [
-    "chillzone-invview.mixins.json"
-  ],
   "depends": {
     "fabricloader": ">=0.19.5",
     "fabric-api": "*",

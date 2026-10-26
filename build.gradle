@@ -1,7 +1,7 @@
 plugins {
     id 'net.fabricmc.fabric-loom' version '1.19.3'
 }
-version = '0.2.8+26.3'
+version = '0.2.9+26.3'
 group = 'com.chillzone'
 base { archivesName = 'chillzone-invview-autocomplete' }
 repositories { maven { url = 'https://maven.fabricmc.net/' }; mavenCentral() }

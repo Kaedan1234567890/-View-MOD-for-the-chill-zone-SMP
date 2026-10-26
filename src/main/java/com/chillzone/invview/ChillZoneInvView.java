@@ -57,9 +57,20 @@ public final class ChillZoneInvView implements ModInitializer {
         if (action == null) return;
         CommandNode<CommandSourceStack> target = action.getChild("target");
         if (!(target instanceof ArgumentCommandNode<?, ?> argument)) return;
-        ArgumentNodeAccessor<CommandSourceStack, ?> accessor = (ArgumentNodeAccessor<CommandSourceStack, ?>) argument;
-        SuggestionProvider<CommandSourceStack> original = accessor.chillzone$getSuggestions();
-        accessor.chillzone$setSuggestions((context, builder) -> mergeSuggestions(original, context, builder));
+        // Avoid transforming Brigadier classes with a Mixin at game startup.
+        // The original InvView command remains functional if the optional enhancement fails.
+        try {
+            java.lang.reflect.Field field = ArgumentCommandNode.class.getDeclaredField("customSuggestions");
+            field.setAccessible(true);
+            SuggestionProvider<CommandSourceStack> original =
+                    (SuggestionProvider<CommandSourceStack>) field.get(argument);
+            field.set(argument, (SuggestionProvider<CommandSourceStack>)
+                    (context, builder) -> mergeSuggestions(original, context, builder));
+            System.out.println("[ChillZoneInvView] Autocomplete installed for /view " + subcommand);
+        } catch (ReflectiveOperationException | RuntimeException exception) {
+            System.err.println("[ChillZoneInvView] Autocomplete unavailable for /view " + subcommand
+                    + " (original InvView remains usable): " + exception);
+        }
     }
 
     private CompletableFuture<Suggestions> mergeSuggestions(SuggestionProvider<CommandSourceStack> original,
