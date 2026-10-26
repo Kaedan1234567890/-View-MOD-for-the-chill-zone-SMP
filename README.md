@@ -1,25 +1,7 @@
-# Chill Zone InvView Autocomplete 0.2.5 (Minecraft 26.3)
+# Chill Zone InvView 0.2.7 – targeted Gradle fix
 
-This is **an add-on**, not a replacement for original `InvView-1.4.22-26.3+.jar`.
-It remembers player UUID and names across joins, saves `config/chillzone-invview/players.tsv`, imports historical names from old cache and provides narrowed player-name suggestions for `/view inv <name>` and `/view echest <name>`.
+This package is **uncompiled and untested**. The actual previous log reported `Could not find method modImplementation()` at `build.gradle:10`. This update replaces both `modImplementation` dependencies with standard Gradle `implementation` dependencies, which are adequate for compile-time use with non-obfuscated Minecraft 26.3, and explicitly adds Fabric Maven to dependency resolution. The original InvView 1.4.22 26.3 JAR in `reference-original` is unchanged. The addon is installed **alongside**, not instead of, the original InvView JAR.
 
-## Build / diagnostics
+GitHub Actions runs Java 25, Gradle 9.8.0, Loom 1.19.3, and uploads `invview-gradle-build-log` even on failure. If the next error involves `minecraft(...)`, that means Loom itself did not create its configurations; do not change Java features to work around it.
 
-GitHub Actions uses Java 25, Gradle 9.7.1, Fabric Loom 1.18-SNAPSHOT, Fabric API 0.163.0+26.3.
-The workflow captures all logs under the `invview-gradle-build-log` artifact and, on build failure, prints likely errors directly in the Build step.
-Run GitHub Actions → Build Chill Zone InvView Autocomplete → Run workflow, or push to main.
-Successful build: use the non-sources JAR from `build/libs` with original InvView.
-
-**Status:** Files and Java syntax structure inspected, but compilation and live testing have NOT succeeded in this environment (Java 25 + build downloads unavailable). Do not remove your working InvView until the new add-on build passes.
-
-## Changes from 0.2.4
-- Moved command-tree patching from command registration callback to `SERVER_STARTED`, after all commands are registered.
-- Uses Fabric's documented Loom 1.18-SNAPSHOT line.
-- Prints real errors on GitHub failures and always uploads a full log.
-- Original mod, selectors, permissions, and inventory logic are not altered.
-
-
-
-## 0.2.6 diagnosis
-The uploaded GitHub Actions `gradle-build.log` explicitly failed at `build.gradle:10`:
-`Could not find method modImplementation()` for Fabric Loader. The plugin did resolve as Fabric Loom 1.18.4 but did not register the required mod dependency configuration. This revision uses Fabric Loom 1.19.3 with Gradle 9.8.0 and retains error-log capture. This change has not been compiled or server tested.
+IMPORTANT: Old autocomplete code has not been live tested. This package does not claim to be a working compiled JAR.
