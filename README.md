@@ -34,3 +34,9 @@ with `Could not resolve`/`No matching variant`, not the Gradle help footer.
 
 ## 0.2.2 build fix
 GitHub Actions now uses Gradle 9.8.0 instead of 9.2.1, meeting Fabric Loom 1.19.3's minimum Gradle requirement. This fixes the Gradle version mismatch reported in the user's GitHub Actions log. Compilation and runtime still need testing.
+
+## 0.2.3 build configuration update
+- Uses Fabric's documented Minecraft 26.3 Loom 1.18-SNAPSHOT and Gradle 9.7.1 combination.
+- Keeps original MIT-licensed InvView nested as a jar and preserves player-history extension and LuckPerms nodes.
+- GitHub build avoids huge stacktrace, making the first underlying error more visible.
+- This package has not been compiled here. If it fails, send the *first* 'What went wrong' section, not the bottom of the stacktrace.
