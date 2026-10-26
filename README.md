@@ -31,3 +31,6 @@ This addresses the likely plugin variant mismatch shown in the partial GitHub lo
 no Java gameplay or permission code has been altered. The build has NOT been
 verified. If configuration still fails, capture the **first** error starting
 with `Could not resolve`/`No matching variant`, not the Gradle help footer.
+
+## 0.2.2 build fix
+GitHub Actions now uses Gradle 9.8.0 instead of 9.2.1, meeting Fabric Loom 1.19.3's minimum Gradle requirement. This fixes the Gradle version mismatch reported in the user's GitHub Actions log. Compilation and runtime still need testing.
