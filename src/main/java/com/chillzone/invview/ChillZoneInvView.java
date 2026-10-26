@@ -8,7 +8,7 @@ import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import com.mojang.brigadier.tree.ArgumentCommandNode;
 import com.mojang.brigadier.tree.CommandNode;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.commands.CommandSourceStack;
@@ -40,7 +40,10 @@ public final class ChillZoneInvView implements ModInitializer {
             historicalNames.put(player.getUUID().toString(), player.getGameProfile().name());
             saveRegistry();
         });
-        CommandRegistrationCallback.EVENT.register((dispatcher, buildContext, environment) -> {
+        // The command tree is complete after server startup; registration callbacks may
+        // run before InvView adds its /view nodes, so patch the finished tree instead.
+        ServerLifecycleEvents.SERVER_STARTED.register(server -> {
+            var dispatcher = server.getCommands().getDispatcher();
             install(dispatcher, "inv");
             install(dispatcher, "echest");
         });
